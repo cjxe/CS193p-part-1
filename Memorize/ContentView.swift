@@ -11,14 +11,14 @@ struct ContentView: View {
     // Array<String>
     // [String]
     // but swift can infer it
-    var emojis = ["🚂", "🚀", "🚁", "🚜"]
+    var emojis = ["🚅", "🚇", "🚌", "🚒", "🚕", "🚗", "🚚", "🛺", "⛵", "🚢", "🛩️", "🚁", "🚠", "🛸", "🚲"]
+    var emojiCount = 3
     
     var body: some View {
         HStack {
-            CardView(content: emojis[0])
-            CardView(content: emojis[1])
-            CardView(content: emojis[2])
-            CardView(content: emojis[3])
+            ForEach(emojis[0..<emojiCount], id: \.self, content:{ emoji in
+                CardView(content: emoji)
+            })
             
         }
         .padding(.horizontal)
