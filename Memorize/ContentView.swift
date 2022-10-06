@@ -12,16 +12,19 @@ struct ContentView: View {
     // [String]
     // but swift can infer it
     var emojis = ["🚅", "🚇", "🚌", "🚒", "🚕", "🚗", "🚚", "🛺", "⛵", "🚢", "🛩️", "🚁", "🚠", "🛸", "🚲"]
-    @State var emojiCount = 3
+    @State var emojiCount = 4
     
     var body: some View {
         VStack {
-            HStack {
-                ForEach(emojis[0..<emojiCount], id: \.self, content:{ emoji in
-                    CardView(content: emoji)
-                })
+            ScrollView {
+                LazyVGrid (columns: [GridItem(.adaptive(minimum: 65))]) {
+                    ForEach(emojis[0..<emojiCount], id: \.self, content:{ emoji in
+                        CardView(content: emoji)
+                            .aspectRatio(2/3, contentMode: .fit)
+                    })
+                }
             }
-            Spacer(minLength: 20)
+            .foregroundColor(.red)
             HStack {
                 remove
                 Spacer()
@@ -31,22 +34,25 @@ struct ContentView: View {
             .padding(.horizontal)
         }
         .padding(.horizontal)
-        .foregroundColor(.red)
+        
     }
     
     var remove: some View {
-        Button(action: {
-            emojiCount -= 1
-        }, label: {
+        Button {
+            if emojiCount > 1 {
+                emojiCount -= 1
+            }
+        } label: {
             Image(systemName: "minus.circle")
-        })
+        }
     }
+    
     var add: some View {
-        Button(action: {
+        Button {
             emojiCount += 1
-        }, label: {
+        } label: {
             Image(systemName: "plus.circle")
-        })
+        }
     }
 }
 
@@ -69,7 +75,7 @@ struct CardView: View {
                     .fill()
                     .foregroundColor(.white)
                 shape
-                    .stroke(lineWidth: 3)
+                    .strokeBorder(lineWidth: 3)
                 Text(content)
                     .font(.largeTitle)
             } else {
